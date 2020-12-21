@@ -1,0 +1,56 @@
+{
+    "name": "kwin/wechat-admin",
+    "description": "laravel admin wchat",
+    "type": "library",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "KwinWong",
+            "email": "KwinWong@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "overtrue/laravel-wechat": "^5.0",
+        "laravel/helpers": "^1.1",
+        "smallruraldog/light-box": "^1.0",
+        "dianwoung/large-file-upload": "^0.0.3"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Kwin\\WechatAdmin\\": "/"
+        },
+        "files": [
+            "_helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+        },
+        "classmap": [
+        ]
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "php artisan vendor:publish --provider='Overtrue\\LaravelWeChat\\ServiceProvider'",
+            "php artisan vendor:publish --provider='SmallRuralDog\\LightBox\\LightBoxServiceProvider'",
+            "php artisan vendor:publish --tag='light-box'",
+            "php artisan aetherupload:publish",
+            "php artisan vendor:publish --tag='large-file-upload'",
+            "php artisan vendor:publish --provider='Kwin\\WechatAdmin\\WechatAdminServiceProvider'",
+            "php artisan wechatAdmin:install"
+        ]
+    },
+    "suggest": {
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kwin\\WechatAdmin\\WechatAdminServiceProvider"
+            ]
+        }
+    }
+}
