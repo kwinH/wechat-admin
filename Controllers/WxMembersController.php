@@ -68,7 +68,8 @@ class WxMembersController extends Controller
             $grid->created_at('创建时间');
 
             //禁用新增按钮
-            $grid->disableCreation();
+            $grid->disableCreation()
+                ->disableRowSelector();
 
             $grid->tools(function ($tools) {
                 $tools->batch(function ($batch) {
@@ -135,6 +136,11 @@ class WxMembersController extends Controller
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
+        $show->panel()
+            ->tools(function (\Encore\Admin\Show\Tools $tools) {
+                $tools->disableEdit();
+                $tools->disableDelete();
+            });
         return $show;
     }
 }

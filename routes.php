@@ -15,7 +15,7 @@ Route::group([
         'prefix' => 'wechat',
     ], function (Router $router) {
         //用户列表
-        $router->resource('/members', 'WxMembersController');
+        $router->resource('/members', 'WxMembersController')->only('index','show');
         $router->put('/menu/upload', 'MenuController@upload')->name('admin.wechat.menu.upload');
         $router->put('/menu/down', 'MenuController@down')->name('admin.wechat.menu.down');
         $router->resource('/menu', 'MenuController');
