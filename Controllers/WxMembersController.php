@@ -62,7 +62,7 @@ class WxMembersController extends Controller
             $grid->column('city', '城市');
             $grid->column('subscribe_scene', __('关注方式'))->using(WxMembers::SUBSCRIBE_SCENE);
             $grid->column('subscribe_time', '关注时间')->display(function ($val) {
-                return date('Y-m-d H:i:s', $val);
+                return $val == 0 ? '未关注' : date('Y-m-d H:i:s', $val);
             });
             $grid->column('remark', '备注');
             $grid->created_at('创建时间');
@@ -131,7 +131,9 @@ class WxMembersController extends Controller
         $show->field('headimgurl', __('用户头像'))->image();
         $show->field('remark', __('备注'));
         $show->field('language', __('微信用户语言'));
-        $show->field('subscribe_time', __('关注时间'));
+        $show->field('subscribe_time', __('关注时间'))->display(function ($val) {
+            return $val == 0 ? '未关注' : date('Y-m-d H:i:s', $val);
+        });
         $show->field('subscribe_scene', __('关注方式'))->using(WxMembers::SUBSCRIBE_SCENE);
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
