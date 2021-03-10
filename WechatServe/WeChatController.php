@@ -3,8 +3,9 @@
 namespace Kwin\WechatAdmin\WechatServe;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
+use EasyWeChat\OfficialAccount\Application as OfficialAccount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Kwin\WechatAdmin\WechatServe\ReplyHandler\MessageReplyHandler;
 
 
@@ -25,7 +26,7 @@ class WeChatController extends Controller
             )
         );
         $responseType = $request->get('response_type', 'code');
-        $scope = $request->get('scope', 'snsapi_base');
+        $scope = $request->get('scope', 'snsapi_userinfo');
         $state = $request->get('state', '');
 
         return redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid={$appId}&redirect_uri={$redirectUri}&response_type={$responseType}&scope={$scope}&state={$state}#wechat_redirect");
@@ -80,6 +81,41 @@ class WeChatController extends Controller
 
         Log::info('hand end. ' . time());
         return $app->server->serve();
+    }
+
+    /**
+     * 获取jssdk配置数组
+     */
+    public function jssdkConfig(Request $request, OfficialAccount $wxApp)
+    {
+        try {
+            $url = $request->input('url', '');
+            $jsApiList = $request->input('jsApiList', [
+                'chooseWXPay',
+                'chooseImage', 'previewImage', 'uploadImage', 'downloadImage',
+                'updateAppMessageShareData', 'updateTimelineShareData'
+            ]);
+            $result = $wxApp->jssdk
+                ->setUrl($url)
+                ->buildConfig($jsApiList,
+                    $request->input('debug') ? true : false,
+                    false,
+                    false
+                );
+
+            return response()->json([
+                'code' => 200,
+                'msg' => '',
+                'data' => $result
+            ])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+
+        } catch (\Exception $exception) {
+            return response()->json([
+                'code' => 500,
+                'msg' => $exception->getMessage(),
+                'data' => null
+            ])->setEncodingOptions(JSON_UNESCAPED_UNICODE);
+        }
     }
 
 }

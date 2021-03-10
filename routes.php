@@ -2,9 +2,16 @@
 
 use Illuminate\Routing\Router;
 
-Route::any('/wechat', 'Kwin\WechatAdmin\WechatServe\WeChatController@serve');
-Route::get('/wechat/authorize', 'Kwin\WechatAdmin\WechatServe\WeChatController@oauthAuthorize')->name('wechat.oauthAuthorize');
-Route::get('/wechat/toSource', 'Kwin\WechatAdmin\WechatServe\WeChatController@toSource')->name('wechat.toSource');
+
+Route::group([
+    'prefix' => 'wechat',
+    'namespace' => 'Kwin\\WechatAdmin\\WechatServe',
+], function (Router $router) {
+    $router->any('/', 'WeChatController@serve');
+    $router->get('/authorize', 'WeChatController@oauthAuthorize')->name('wechat.oauthAuthorize');
+    $router->get('/toSource', 'WeChatController@toSource')->name('wechat.toSource');
+    $router->get('/config', 'WeChatController@jssdkConfig'); //获取jssdk配置数组
+});
 
 Route::group([
     'prefix' => config('admin.route.prefix'),
@@ -15,7 +22,7 @@ Route::group([
         'prefix' => 'wechat',
     ], function (Router $router) {
         //用户列表
-        $router->resource('/members', 'WxMembersController')->only('index','show');
+        $router->resource('/members', 'WxMembersController')->only('index', 'show');
         $router->put('/menu/upload', 'MenuController@upload')->name('admin.wechat.menu.upload');
         $router->put('/menu/down', 'MenuController@down')->name('admin.wechat.menu.down');
         $router->resource('/menu', 'MenuController');
