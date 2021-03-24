@@ -27,11 +27,15 @@ WECHAT_OFFICIAL_ACCOUNT_AES_KEY=消息加解密密钥(EncodingAESKey)
 服务器地址(URL)配置为`{网址地址}/wechat`
 
 ## 后台菜单
+![image](https://user-images.githubusercontent.com/22871248/112262223-45e59400-8ca8-11eb-9838-b4079fdd3b5f.png)
+
 - 微信公众号管理
 
   - 用户管理
+  ![image](https://user-images.githubusercontent.com/22871248/112262530-c60bf980-8ca8-11eb-8833-a1c63cab4944.png)
 
   - 菜单管理
+  ![image](https://user-images.githubusercontent.com/22871248/112262922-62ce9700-8ca9-11eb-9363-c3e73d02131f.png)
 
   - 素材管理
 
